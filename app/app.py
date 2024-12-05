@@ -42,6 +42,7 @@ def convert():
     buffered = BytesIO()
     image.save(buffered, format="PNG")
     image = base64.b64encode(buffered.getvalue()).decode('utf-8')
+    watermark_adder.print_watermark_info("output\out.svg")  # Print watermark information to console
     
     return jsonify({'linedraw': f"data:image/png;base64,{sketch_image_base64}",
                     'image': f"data:image/png;base64,{image}",})

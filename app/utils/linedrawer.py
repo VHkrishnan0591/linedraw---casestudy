@@ -4,7 +4,7 @@ import os
 from PIL import Image, ImageDraw, ImageOps
 import numpy as np
 import cv2
-from filters import *
+# from filters import *
 from utils.util import distsum
 from utils import perlin
 from utils.strokesort import *

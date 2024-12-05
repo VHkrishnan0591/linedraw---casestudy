@@ -3,50 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <title>Line draw Image Converter</title>
-    <style>
-        #video, #canvas, #captured-image {
-            display: block;
-            margin: 20px auto;
-            width: 320px;  /* Match the width of the captured image */
-            height: 240px; /* Match the height of the captured image */
-        }
-        #canvas, #captured-image, #image-1, #image-2 {
-            display: none;
-        }
-        .images {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        img {
-            width: 320px;  /* Set width to match captured image */
-            height: 240px; /* Set height to match captured image */
-            margin: 0 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="static\style.css" type = "text/css">
+    
 </head>
 <body>
-    <h1 style="text-align: center;">Capture Image and Convert to LineDraw</h1>
+    <div class="background-blur">
+        <h1 >Image to Line Draw Converter</h1>
     
-    <!-- Camera Feed -->
-    <video id="video" width="320" height="240" autoplay></video>
+        <!-- Camera Feed -->
+        <video id="video" width="320" height="240" autoplay></video>
+        
+        <!-- Captured Image Canvas -->
+        <canvas id="canvas" width="320" height="240"></canvas>
+        
+        <!-- Display Area for Captured Color Image -->
+        <img id="captured-image" alt="Captured Color Image" />
     
-    <!-- Captured Image Canvas -->
-    <canvas id="canvas" width="320" height="240"></canvas>
+        <!-- Display Area for Images Side by Side -->
+        <div class="images">
+            <img id="image-1" alt="Image 1" />
+            <img id="image-2" alt="Image 2" />
+        </div>
     
-    <!-- Display Area for Captured Color Image -->
-    <img id="captured-image" alt="Captured Color Image" />
-
-    <!-- Display Area for Images Side by Side -->
-    <div class="images">
-        <img id="image-1" alt="Image 1" />
-        <img id="image-2" alt="Image 2" />
+        <!-- Buttons -->
+        <div class="button-container">
+            <button id="capture" >Capture</button>
+            <button id="convert"  disabled>Convert to LineDraw</button>
+            <button id="reset" >Reset</button>
+            <button id = "print">Print</button>
+        </div> 
     </div>
-
-    <!-- Buttons -->
-    <button id="capture" style="display: block; margin: 10px auto;">Capture</button>
-    <button id="convert" style="display: block; margin: 10px auto;" disabled>Convert to LineDraw</button>
-    <button id="reset" style="display: none; margin: 10px auto;">Reset</button>
+    
+    
 
     <script>
         const video = document.getElementById('video');
@@ -57,6 +45,7 @@
         const captureButton = document.getElementById('capture');
         const convertButton = document.getElementById('convert');
         const resetButton = document.getElementById('reset');
+        const printButton = document.getElementById('print');
         const context = canvas.getContext('2d');
 
         // Access the camera
@@ -83,7 +72,7 @@
             canvas.style.display = 'none';
             convertButton.disabled = false;
             captureButton.style.display = 'none';  // Hide capture button
-            resetButton.style.display = 'block';   // Show reset button
+            resetButton.style.display = 'flex';   // Show reset button
         });
 
         // Convert image to Linedraw
@@ -105,6 +94,8 @@
                 Image2.src = data.linedraw;
                 Image1.style.display = 'block';  // Show  image 1
                 Image2.style.display = 'block';  // Show  image 2
+                convertButton.style.display = 'none'; // Dont Show
+                printButton.style.display = 'flex'; // Show
             })
             .catch(error => {
                 console.error('Error converting image:', error);
@@ -118,9 +109,11 @@
             capturedImage.style.display = 'none';
             Image1.style.display = 'none';
             Image2.style.display = 'none';
-            captureButton.style.display = 'block';
+            captureButton.style.display = 'flex';
             resetButton.style.display = 'none';
+            convertButton.style.display = 'flex'
             convertButton.disabled = true;  // Disable convert button until a new capture
+            printButton.style.display = 'none'
         });
     </script>
 </body>
